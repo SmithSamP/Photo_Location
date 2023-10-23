@@ -59,6 +59,7 @@ def create_KML(dirPath, savePath, count, icon, size, kml):
             create_KML(filePath, savePath, count, icon, size, kml)
 
 
+
 def run_KML(dirPath, savePath, count, icon, size):
     kml = simplekml.Kml()
     f = open("error_logging.txt", "a")
