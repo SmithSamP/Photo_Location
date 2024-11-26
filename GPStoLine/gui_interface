@@ -1,0 +1,34 @@
+import PySimpleGUI as sg
+from video_to_kml import VideoToLine
+
+sg.theme('Dark Grey 8')
+
+layout = [[sg.Text('GoPro Video')],
+          [sg.Input(readonly=True, text_color='black'), sg.FolderBrowse(key='_IN_')],
+          [sg.Input(readonly=True, text_color='black'), sg.FileSaveAs(default_extension='kml', key='_OUT_')]]
+
+window = sg.Window('GoPro to kml', layout)
+
+while True:
+    event, values = window.read()
+    inputFolder = values['_IN_']
+    outputFile = values['_OUT_']
+
+
+    if event == sg.WIN_CLOSED or event == '_CANCEL_':
+        break
+
+    if event == 'OK':
+        window['_STATUS_'].update('Working...')
+
+        window['OK'].update(disabled=True)
+        try:
+            vtl = VideoToLine(inputFolder, outputFile)
+            vtl.create_kml
+        except FileNotFoundError:
+            sg.popup_error(f'The path specified cannot be found')
+        window['_STATUS_'].update('')
+
+    window['OK'].update(disabled=False)
+
+window.close()
