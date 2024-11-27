@@ -1,6 +1,7 @@
 import telemetry_parser
 import logging
 import simplekml
+import os
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 class VideoToLine:
@@ -8,6 +9,10 @@ class VideoToLine:
     def __init__(self, input_video, save_path):
         self.input_video = input_video
         self.save_path = save_path
+
+        if not self.save_path.lower().endswith('.kml'):
+            self.save_path += '.kml'
+
         self.coordinate_tuples = None
 
     def get_coordinates(self):
@@ -38,7 +43,7 @@ class VideoToLine:
         file_name = os.path.basename(self.save_path)
         kml = simplekml.Kml()
         ls = kml.newlinestring(name=file_name)
-        ls.coords = coordinate_tuples
+        ls.coords = self.coordinate_tuples
         ls.extrude = 1
         ls.altitudemode = simplekml.AltitudeMode.clamptoground
         ls.style.linestyle.width = 3

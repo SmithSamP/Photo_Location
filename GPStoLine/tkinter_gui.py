@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from video_to_line import VideoToLine
+import os
 
 def browse_input_path():
     """Open a file dialog to select the input file and update the entry field."""
@@ -34,12 +35,12 @@ def run_process():
     print(f"Output path: {output_path}")
     vtl = VideoToLine(input_video = input_path, save_path = output_path)
     vtl.get_coordinates()
-    vtl.create_kml
+    vtl.create_kml()
     messagebox.showinfo("Success", "Process completed successfully!")
 
 # Create the main application window
 root = tk.Tk()
-root.title("Path Selector")
+root.title("GoPro Video to Line")
 
 # Create and place the input path components
 input_label = tk.Label(root, text="Input Path:")
@@ -64,6 +65,8 @@ output_button.grid(row=1, column=2, padx=10, pady=5)
 # Add the Run button
 run_button = tk.Button(root, text="Run", command=run_process, bg="green", fg="white")
 run_button.grid(row=2, column=1, pady=20)
-
+# Add a contact label
+contact_label = tk.Label(root, text="Contact Sam Smith at smiths@aks-eng.com for support.")
+contact_label.grid(row=3, column=1, pady=5)
 # Run the application
 root.mainloop()
